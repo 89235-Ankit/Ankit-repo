@@ -88,12 +88,12 @@ const ShortlistedVehicles = () => {
           </div>
         </div>
         <nav className="nav-menu">
-          <button>My Orders</button>
+          <button onClick={()=>{navigate("/home/myorders")}}>My Orders</button>
           <button className="active">Shortlisted Vehicles</button>
           <button>My Activity</button>
           <button>My Vehicles</button>
           <button>My Garage</button>
-          <button>Manage Consents</button>
+          <button onClick={()=>{navigate("/home/manage")}}>Manage Consents</button>
           <button>Profile Settings</button>
         </nav>
         <button className="logout-btn">Logout</button>

@@ -1,7 +1,6 @@
 import "../../Style/UpdateCarForm.css";
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import { config } from "../../config";
 import { useParams } from "react-router-dom";
 
 
@@ -354,12 +353,13 @@ const handleChange = (e) => {
     ...prev,
     [name]: type === "checkbox" ? checked : value,
   }));
-};
+  };
 
   const handleFilesUpdate = (files) => {
     setUploadedFiles(files);
   };
 
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem("token");
@@ -368,23 +368,24 @@ const handleChange = (e) => {
       return;
     }
 
-//     const formData = new FormData();
+ //     const formData = new FormData();
 
-// formData.append("car");
+ // formData.append("car");
  
     // Append images
     // uploadedFiles.forEach((file) => formData.append("images", file));
-    const carId = useParams()
     try {
-      const res = await axios.put(`${config.serverURL}/cars/${carId}`, car)// {
+      const res = await axios.put(`http://localhost:8080/cars/${carId}`, car)// {
        //  headers: {
         //   Authorization: `Bearer ${token}`,
         //   "Content-Type": "multipart/form-data",
       //    }
       // });
-      
-      alert("Car added successfully!");
+      if(res.status=200)
+      {
+      alert("Car updated successfully!");
       console.log(res.data);
+      }
     } catch (err) {
       console.error("Error uploading car:", err);
       alert("Failed to upload car");

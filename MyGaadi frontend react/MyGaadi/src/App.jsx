@@ -13,8 +13,8 @@ import FilterCar from "./components/car-page/FilteredCar";
 import Myvehicles from "./pages/profile-pages/MyVehicles";
 import UpdateCarDetails from "./components/car-page/UpdateCarDetails";
 import BookAppointment from "./components/book-car/BookAppointment";
-import MyOrders from "./pages/profile-pages/MyOrders";
-
+import UserAppointments from "./pages/profile-pages/UserAppointment";
+import ManageAppointments from "./pages/profile-pages/ManageAppointment";
 function App() {
   return (
     <>
@@ -32,7 +32,8 @@ function App() {
           <Route path="MyVehicles" element={<Myvehicles />} />
           <Route path="updatecar/:carId" element={<UpdateCarDetails />} />
           <Route path="book/:carId" element={<BookAppointment />} />
-          <Route path="myorders" element={<MyOrders />} />
+          <Route path="myorders" element={<UserAppointments />} />
+          <Route path="manage" element={<ManageAppointments />} />
         </Route>
       </Routes>
       <ToastContainer />
