@@ -15,6 +15,7 @@ const AllCarsPage = () => {
   }, []);
 
   const handleClick = (carId) => {
+    
     navigate(`/Home/cars/${carId}`);
   };
 
@@ -70,7 +71,7 @@ const AllCarsPage = () => {
 
           <div className="variant-bar">Variant: {car.variant}</div>
         </div>
-      ))}
+))}
     </div>
   );
 };

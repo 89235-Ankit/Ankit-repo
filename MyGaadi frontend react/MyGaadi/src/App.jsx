@@ -12,7 +12,7 @@ import CarDetailsPage from "./components/car-page/CarDetailsPage";
 import FilterCar from "./components/car-page/FilteredCar";
 import Myvehicles from "./pages/profile-pages/MyVehicles";
 import UpdateCarDetails from "./components/car-page/UpdateCarDetails";
-
+import BookAppointment from "./components/book-car/BookAppointment";
 function App() {
   return (
     <>
@@ -29,7 +29,7 @@ function App() {
           <Route path="Filtercar" element={<FilterCar />} />
           <Route path="MyVehicles" element={<Myvehicles />} />
           <Route path="updatecar/:carId" element={<UpdateCarDetails />} />
-
+          <Route path="book/:carId" element={<BookAppointment />} />
         </Route>
       </Routes>
       <ToastContainer />
