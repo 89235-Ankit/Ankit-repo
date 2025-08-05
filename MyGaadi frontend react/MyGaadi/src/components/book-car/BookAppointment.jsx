@@ -1,88 +1,114 @@
-import React, { useState } from "react";
-import axios from "axios";
-import { useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-
-const BookAppointment = () => {
-    const {carId} = useParams()
-  const [message, setMessage] = useState("");
-  const [loading, setLoading] = useState(false);
+import React, { useState } from 'react';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { useParams } from 'react-router-dom';
+const AppointmentForm = () => {
+  const [formData, setFormData] = useState({
+    location: '',
+    appointmentDate: '',
+    appointmentTime: '',
+    type: 'TEST_DRIVE', // default value
+  });
+  const {carId} = useParams()
   const token = sessionStorage.getItem("token")
+  const appointmentTypes = ['TEST_DRIVE', 'SERVICE', 'INSPECTION']; // adjust to match your backend
 
+  const handleChange = (e) => {
+    setFormData({ 
+      ...formData, 
+      [e.target.name]: e.target.value 
+    });
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
 
+  
     try {
-        await axios.post(
-            `http://localhost:8080/appointment/${carId}`,
-            { message },
-            {
-              headers: {
-                Authorization: `Bearer ${token}`  
-              }
-            }
-          ).then(()=>{
-            toast.success("Appointment was booked")
-           
-          });
-    } 
-    catch (error) {
+      const appointmentData = {
+        location: formData.location,
+        appointmentDate: formData.appointmentDate,
+        appointmentTime: formData.appointmentTime,
+        type: formData.type
+      };
+  
+      await axios.post(
+        `http://localhost:8080/appointment/${carId}`,
+        appointmentData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
+  
+      toast.success("Appointment was booked");
+    } catch (error) {
       console.error(error);
-      
-      if(error.response)
-      {
-      const { message } = error.response.data;
-      toast.error(`${message}`)
+  
+      if (error.response) {
+        const { message } = error.response.data;
+        toast.error(`${message}`);
+      } else {
+        toast.error("An error occurred while booking.");
       }
-    } finally {
-      setLoading(false);
-    }
+    } 
   };
+  
 
   return (
-    <div className="max-w-xl mx-auto mt-12 p-8 rounded-3xl shadow-2xl bg-gradient-to-br from-white via-gray-50 to-blue-50 border border-gray-200">
-      <h2 className="text-3xl font-bold mb-6 text-center text-blue-700">📅 Book Appointment</h2>
+    <form onSubmit={handleSubmit}>
+      <div>
+        <label>Location:</label>
+        <input
+          type="text"
+          name="location"
+          value={formData.location}
+          onChange={handleChange}
+          required
+        />
+      </div>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div>
-            <table style={{marginLeft:"auto", marginRight:"auto"}}>
-                <tbody>
-                    <tr>
-                        <td> 
-                     <label className="block text-sm font-medium text-gray-600 mb-1">
-                         Enter Message 
-                     <span className="text-red-500">*</span> </label>
-                        </td>
-                        <td>
-                        <textarea
-                          name="message"
-                          value={message}
-                          onChange={(e) => setMessage(e.target.value)}
-                          required
-                          rows={2}
-                          placeholder="Enter preferred time, questions, etc."
-                          className="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400"/>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-         
-         
-        </div>
+      <div>
+        <label>Appointment Date:</label>
+        <input
+          type="date"
+          name="appointmentDate"
+          value={formData.appointmentDate}
+          onChange={handleChange}
+          required
+        />
+      </div>
 
-        <button
-          type="submit"
-          disabled={loading}
-          className={`w-full py-3 text-white font-semibold rounded-xl transition-all duration-200 ${
-            loading ? "bg-blue-300 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"
-          }`}
+      <div>
+        <label>Appointment Time:</label>
+        <input
+          type="time"
+          name="appointmentTime"
+          value={formData.appointmentTime}
+          onChange={handleChange}
+          required
+        />
+      </div>
+
+      <div>
+        <label>Appointment Type:</label>
+        <select
+          name="type"
+          value={formData.type}
+          onChange={handleChange}
+          required
         >
-          {loading ? "Booking..." : "Confirm Appointment"}
-        </button>
-      </form>
-    </div>
+          {appointmentTypes.map((type, index) => (
+            <option key={index} value={type}>
+              {type.replace('_', ' ')}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <button type="submit">Book Appointment</button>
+    </form>
   );
 };
 
-export default BookAppointment;
+export default AppointmentForm;
