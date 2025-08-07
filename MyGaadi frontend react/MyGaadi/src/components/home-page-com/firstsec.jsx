@@ -5,10 +5,14 @@ import { useNavigate } from "react-router-dom";
 
 function Firstsec() {
   const navigate = useNavigate();
+  const token = sessionStorage.getItem("token")
+
 
   const clickHandler = () => {
     navigate("/home/AllCar");
   };
+
+
 
   return (
     <>

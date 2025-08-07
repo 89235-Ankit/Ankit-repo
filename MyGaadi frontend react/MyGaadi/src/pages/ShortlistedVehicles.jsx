@@ -1,38 +1,31 @@
-import React, { useState,useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "../Style/ShortlistedVehicles.css";
-import { useNavigate } from "react-router-dom";
+import { useShortlist } from "../contexts/ShortlistContext";
 import axios from "axios";
-import { toast } from "react-toastify";
-
-
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../contexts/auth.context";
+import { useContext } from "react";
 const ShortlistedVehicles = () => {
-  
+  const { shortlisted, removeFromShortlist } = useShortlist();
   const [userData, setUserData] = useState({
     name: "",
     phone: "",
     email: "",
   });
-  const [cars, setCars] = useState([]);
+  const { setUser } = useContext(AuthContext);
   const navigate = useNavigate();
-  const token = sessionStorage.getItem("token");
-  console.log("Token:", token); 
+  const onLogout = () => {
+    //remove all the caches values from session Storage
+    sessionStorage.removeItem("Name");
+    sessionStorage.removeItem("token");
 
-  
-  useEffect(() => {
+    //reset the user details in AuthContext
+    setUser(null);
 
-    axios
-      .get("http://localhost:8080/api/favorites/", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        console.log("Fetched cars:", res.data); 
-        setCars(res.data);
-      })
-      .catch((err) => console.error("Error fetching your cars:", err));
-  }, []);
+    //navigate to Login Screen
 
+    navigate("/");
+  };
   useEffect(() => {
     const fetchUserData = async () => {
       const token = sessionStorage.getItem("token");
@@ -59,69 +52,90 @@ const ShortlistedVehicles = () => {
     fetchUserData();
   }, []);
 
-
-
-  const removeFromWishlist = (carId) => {
-    
-    axios.delete(`http://localhost:8080/api/favorites/${carId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-    .then((res)=>{
-      toast.success("removed from wishlist")
-
-      setCars((prevCars) => prevCars.filter((car) => car.carId !== carId));
-
-    })
-    .catch((err)=>{console.error(err)})
-  };
   return (
     <div className="shortlist-container">
       <aside className="sidebar">
         <div className="profile-section">
-          <div className="avatar">S</div>
-          <div className="user-info">
-            <p className="name">{userData.name}</p>
-            <p className="phone">{userData.phone}</p>
-            <a href="#">{userData.email}</a>
+          <div className="avatar">{userData.name.charAt(0)}</div>
+          <div className="user-info-column">
+            <p>
+              <strong>Name:</strong> {userData.name}
+            </p>
+            <p>
+              <strong>Phone:</strong> {userData.phone}
+            </p>
+            <p>
+              <strong>Email:</strong>{" "}
+              {userData.email || "Link your e-mail or social account"}
+            </p>
           </div>
         </div>
         <nav className="nav-menu">
-          <button onClick={()=>{navigate("/home/myorders")}}>My Orders</button>
-          <button className="active">Shortlisted Vehicles</button>
-          <button>My Activity</button>
-          <button>My Vehicles</button>
-          <button>My Garage</button>
-          <button onClick={()=>{navigate("/home/manage")}}>Manage Consents</button>
-          <button>Profile Settings</button>
+          <button onClick={() => navigate("/home/AddCar")}>
+            Sell Your Vehicles
+          </button>
+          <button onClick={() => navigate("/home/Myvehicles")}>
+            My Vehicles
+          </button>
+
+          <button onClick={() => navigate("/home/myorder")}>My Orders</button>
+          <button onClick={() => navigate("/home/manage")}>
+            Manage Consents
+          </button>
+          <button onClick={() => navigate("/home/ProfileUpdate")}>
+            Profile Settings
+          </button>
         </nav>
-        <button className="logout-btn">Logout</button>
+        <button onClick={onLogout} className="logout-btn">
+          Logout
+        </button>
       </aside>
 
       <main className="main-content">
         <h2>Shortlisted</h2>
         <p>
-          {cars.length} item
-          {cars.length !== 1 ? "s" : ""} are shortlisted, you can explore
-          them
+          {shortlisted.length} item{shortlisted.length !== 1 ? "s" : ""} are
+          shortlisted, you can explore them
         </p>
         <div className="vehicle-list">
-          {cars.length === 0 ? (
+          {shortlisted.length === 0 ? (
             <div className="empty-message">No vehicles shortlisted.</div>
           ) : (
-            cars.map((car, index) => (
-              <div className="vehicle-card improved" key={index}>
-                <div className="vehicle-tag">{car.location}</div>
-                <h3>{car.brand}</h3>
-                <p>{car.model}</p>
-                <p className="price">₹{car.price?.toLocaleString()}</p>
+            shortlisted.map((v, index) => (
+              <div className="vehicle-card" key={index}>
+                <div className="vehicle-tag">{v.tag}</div>
+                {v.images && v.images.length > 0 ? (
+                  <img
+                    src={`data:image/jpeg;base64,${v.images[0].imagebase64}`}
+                    alt="car"
+                    className="vehicle-image"
+                  />
+                ) : (
+                  <div className="no-image">No Image</div>
+                )}
+                <h3>
+                  {v.brand} {v.model}
+                </h3>
+                <p>
+                  {v.registrationYear} • {v.fuelType} • {v.transmission}
+                </p>
+                <p>
+                  {v.kmDriven} km • {v.ownership} Owner
+                </p>
+                <p className="price">₹{v.price?.toLocaleString()}</p>
                 <div className="card-actions">
-                <button className="check-now" style={{fontSize:"12px"}} onClick={() => navigate(`/home/cars/${car.carId}`)}>Check Now ➤</button>
-                <button className="btn btn-danger" style={{fontSize:"12px"}} onClick={() => removeFromWishlist(car.carId)}>
-              Remove car <i class="bi bi-x-lg"></i>
-
-            </button>
+                  <button
+                    className="check-now"
+                    onClick={() => navigate(`/home/cars/${v.carId}`)}
+                  >
+                    Check Now ➤
+                  </button>
+                  <button
+                    className="remove-btn"
+                    onClick={() => removeFromShortlist(v.carId)}
+                  >
+                    Remove
+                  </button>
                 </div>
               </div>
             ))

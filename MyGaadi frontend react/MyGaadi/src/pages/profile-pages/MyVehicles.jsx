@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 const MyVehicles = () => {
   const [cars, setCars] = useState([]);
-  const naviagte = useNavigate()
+  const navigate = useNavigate();
   useEffect(() => {
     const token = sessionStorage.getItem("token");
     console.log("Token:", token); // ✅ Check if token exists
@@ -21,15 +21,18 @@ const MyVehicles = () => {
       })
       .catch((err) => console.error("Error fetching your cars:", err));
   }, []);
-  
-  const deleteCar = (carId) =>{
-    axios.delete(`http://localhost:8080/cars/${carId}`)
-    .then(()=>{ 
-       toast.success("Car was removed successfully")
-      setCars((prevCars) => prevCars.filter((car) => car.carId !== carId))
-  })
-    .catch(ex=>{console.error("error",ex)})
-  }
+
+  const deleteCar = (carId) => {
+    axios
+      .delete(`http://localhost:8080/cars/${carId}`)
+      .then(() => {
+        toast.success("Car was removed successfully");
+        setCars((prevCars) => prevCars.filter((car) => car.carId !== carId));
+      })
+      .catch((ex) => {
+        console.error("error", ex);
+      });
+  };
 
   return (
     <div className="container mt-4">
@@ -56,11 +59,26 @@ const MyVehicles = () => {
                     ₹{car.price?.toLocaleString()} <br />
                     {car.registrationYear} • {car.kmDriven} km
                   </p>
-                  <div style={{ display: 'flex', gap: '10px' }}>
-                      <button className="btn btn-primary" onClick={()=>{naviagte(`/home/updatecar/${car.carId}`)}} >Update</button>
-                     <button className="btn btn-danger" onClick={() => deleteCar(car.carId)}>Delete</button>
+                  <div style={{ display: "flex", gap: "10px" }}>
+                    <button
+                      className="btn btn-primary"
+                      onClick={() => {
+                        if (car.carId) {
+                          navigate(`/home/updatecar/${car.carId}`);
+                        } else {
+                          toast.error("Car ID is missing");
+                        }
+                      }}
+                    >
+                      Update
+                    </button>
+                    <button
+                      className="btn btn-danger"
+                      onClick={() => deleteCar(car.carId)}
+                    >
+                      Delete
+                    </button>
                   </div>
-
                 </div>
               </div>
             </div>

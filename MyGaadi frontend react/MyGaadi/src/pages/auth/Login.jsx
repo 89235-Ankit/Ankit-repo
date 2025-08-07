@@ -2,6 +2,8 @@ import { useContext, useState } from "react";
 import { toast } from "react-toastify";
 import { loginUser } from "../../services/user";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useEffect } from "react";
 import { AuthContext } from "../../contexts/auth.context.jsx";
 import React from "react";
 import "../../Style/Login.css";
@@ -16,6 +18,7 @@ function Login() {
 
   // get navigate() function reference
   const navigate = useNavigate();
+
 
   // button click event handler
   const onLogin = async (e) => {
@@ -38,6 +41,8 @@ function Login() {
           // persist the information in session storage
           sessionStorage.setItem("Name", user.name);
           sessionStorage.setItem("token", token);
+          
+          
 
           // set the user details in the AuthContext
           setUser({ name: user.name });
@@ -46,10 +51,26 @@ function Login() {
 
           // navigate to home screen
           navigate("/home");
+          axios
+          .get("http://localhost:8080/appointment/manage", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          })
+          .then((res) => {
+            console.log("Fetched cars:", res.data, res.data.length);
+            if(res.data.length!=0)
+            {
+            toast.success(`${res.data.length} : pending requests`)
+            }
+
+          })
+          .catch((err) => console.error("Error fetching your cars:", err));
         } else {
           toast.error("Invalid email or password");
         }
       }
+    
     }
   };
 
