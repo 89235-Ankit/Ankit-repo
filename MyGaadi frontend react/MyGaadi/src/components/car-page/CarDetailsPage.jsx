@@ -10,10 +10,16 @@ const CarDetailPage = () => {
   const [car, setCar] = useState(null);
   const [wishlist, setWishlist] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const token = sessionStorage.getItem("token")
+  
   
   useEffect(() => {
     axios
-      .get(`http://localhost:8080/cars/${carId}`)
+      .get(`http://localhost:8080/cars/${carId}`,{
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((res) => {
         setCar(res.data);
       })
@@ -48,7 +54,11 @@ const CarDetailPage = () => {
     axios.post(`http://localhost:8080/inquiries/send`,{
       fromUserId: 1,
     carId: carId,
-    message: "wanana contact"})
+    message: "wanana contact"}, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
     .then(res=>{
       console.log(res.data)
       if(res!=null)

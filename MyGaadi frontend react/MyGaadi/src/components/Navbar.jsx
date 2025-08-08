@@ -28,6 +28,12 @@ function Navbar() {
       </div>
 
       <div className="navbar__right">
+        {sessionStorage.getItem("userType") === "ADMIN" && (
+          <button className="btn btn-primary" onClick={() => navigate("/home/admin/")}>
+            Admin Panel
+          </button>
+        )}
+
         <button className="navbar__logout" onClick={onLogout}>
           Logout
         </button>

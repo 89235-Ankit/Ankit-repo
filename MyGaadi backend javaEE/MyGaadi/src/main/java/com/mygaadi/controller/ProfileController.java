@@ -1,5 +1,6 @@
 package com.mygaadi.controller;
 
+import com.mygaadi.entities.CustomUserDetails;
 import com.mygaadi.entities.User;
 import com.mygaadi.security.JwtUtil;
 import com.mygaadi.service.UserService;
@@ -7,6 +8,8 @@ import com.mygaadi.dao.UserDao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -25,6 +28,7 @@ public class ProfileController {
 
     @Autowired
     private UserDao userDao;
+    
 
     @GetMapping("/profile")
     public ResponseEntity<?> getProfile(HttpServletRequest request) {
@@ -39,7 +43,10 @@ public class ProfileController {
         }
 
         String email = jwtUtil.extractEmail(token);
+        String roles = jwtUtil.extractRoles(token);
+        System.out.println(roles);
         User user = userService.getUserByEmail(email);
+        
 
         return ResponseEntity.ok(Map.of(
             "name", user.getName(),

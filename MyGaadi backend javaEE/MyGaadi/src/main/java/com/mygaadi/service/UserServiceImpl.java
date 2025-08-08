@@ -59,7 +59,7 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new AuthenticationFailureException("Invalid email or password"));
 
         UserDTO userDto = modelMapper.map(user, UserDTO.class);
-        String token = jwtUtil.generateToken(user.getEmail());
+        String token = jwtUtil.generateToken(user);
 
         return new AuthResponseDTO(userDto, token);
     }

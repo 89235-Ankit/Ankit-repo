@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
+import "../../Style/City.css"
 import "../../Style/homepage/cityStyle.css";
 import A from "../../assets/city/Ahm.png";
 import B from "../../assets/city/CityB.png";
@@ -12,7 +13,14 @@ import H from "../../assets/city/CityH.png";
 import I from "../../assets/city/CityI.png";
 const City = () => {
   const [city, setCity] = useState("");
+
+  const handleCityChange = (value) => {
+    setCity(value);
+    console.log("Selected city:", value);
+  };
+
   const navigate = useNavigate();
+
   const cities = [
     { name: "Ahmedabad", icon: A },
     { name: "Bangalore", icon: B },
@@ -80,56 +88,40 @@ const City = () => {
           <p className="search-prompt">
             I am looking to buy a second hand car in
           </p>
-          <div className="input-wrapper">
+          <div className="city-input-wrapper" style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+        
+
+            {/* Dropdown */}
+            <select classNames="form-select"
+              value=""
+              onChange={(e) => handleCityChange(e.target.value)}
+              style={{ padding: "6px 10px" }}
+            >
+              <option  value="">Select from list</option>
+              {cities.map((c, index) => (
+                <option key={index} value={c.name}>
+                  {c.name}
+                </option>
+              ))}
+            </select>
+
+            {/* Or Manual Input */}
             <input
               type="text"
-              placeholder="Enter your city"
-              className="city-name"
-              onChange={(e) => {
-                const selectedCity = { name: e.target.value }; // or from dropdown options
-                setCity(selectedCity);
-              }}
+              placeholder="Or type your city"
+              value={city}
+              onChange={(e) => handleCityChange(e.target.value)}
+              style={{ padding: "6px 10px" , backgroundColor:"lightsteelblue"}}
             />
-            <span className="input-icon location-icon">
-              {/* Location icon - using inline SVG */}
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
-                <circle cx="12" cy="10" r="3" />
-              </svg>
-            </span>
-            <span className="input-icon dropdown-icon">
-              {/* Dropdown arrow icon - using inline SVG */}
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="m6 9 6 6 6-6" />
-              </svg>
-            </span>
+
+          
           </div>
           <div className="search-button-wrapper">
             {/* Simple button for demonstration */}
-            <button
+            <button 
               onClick={() => {
-                navigate(`/Home/filtercar`, { state: { city } });
-              }}
+                  navigate(`/Home/filtercar`, { state: { city } });
+                }}
               className="search-button"
             >
               Search Cars

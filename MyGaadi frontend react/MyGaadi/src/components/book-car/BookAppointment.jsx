@@ -3,6 +3,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 import "../../Style/BookAppointment.css";
+import { useNavigate } from "react-router-dom";
 const AppointmentForm = () => {
   const [formData, setFormData] = useState({
     location: "",
@@ -13,6 +14,7 @@ const AppointmentForm = () => {
   const { carId } = useParams();
   const token = sessionStorage.getItem("token");
   const appointmentTypes = ["TEST_DRIVE", "SERVICE", "INSPECTION"]; // adjust to match your backend
+  const navigate = useNavigate()
 
   const handleChange = (e) => {
     setFormData({
@@ -42,6 +44,8 @@ const AppointmentForm = () => {
       );
 
       toast.success("Appointment was booked");
+      navigate("/home")
+      
     } catch (error) {
       console.error(error);
 

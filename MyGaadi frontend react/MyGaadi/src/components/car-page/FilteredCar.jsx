@@ -9,6 +9,7 @@ import { useShortlist } from "../../contexts/ShortlistContext";
 
 const FilterCar = () => {
   const location = useLocation();
+  
   const navigate = useNavigate();
   const { shortlisted, addToShortlist, removeFromShortlist } = useShortlist();
 
@@ -18,10 +19,11 @@ const FilterCar = () => {
   const { brand, city } = location.state || {};
 
   const body = {
-    location: city?.name ?? null,
-    brand: brand?.name ?? null,
-  };
+  location: typeof city === "string" ? city : city?.name ?? null,
+  brand: typeof brand === "string" ? brand : brand?.name ?? null,
+};
 
+  console.log(body)
   useEffect(() => {
     axios
       .post(`http://localhost:8080/cars/filter`, body)

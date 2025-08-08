@@ -17,6 +17,16 @@ import BookAppointment from "./components/book-car/BookAppointment";
 import UserAppointments from "./pages/profile-pages/UserAppointment";
 import ManageAppointments from "./pages/profile-pages/ManageAppointment";
 import UpdateCarDetails from "./components/car-page/UpdateCarDetails";
+import AdminPage from "./pages/admin/AdminPage";
+import AdminUpdate from "./pages/admin/AdminUpdate";
+import Teams from './components/static/Teams';
+import Services from './components/static/Services';
+import Contact from './components/static/Contact';
+import Support from './components/static/Support';
+import Company from './components/static/Company';
+import Location from'./components/static/Location';
+import About from './components/static/About';
+import OurServices from './components/static/OurServices';
 function App() {
   return (
     <>
@@ -25,6 +35,8 @@ function App() {
         <Route path="register" element={<Register />} />
         <Route path="home" element={<Home />}>
           <Route index element={<HomeLanding />} />
+          <Route path="admin" element={<AdminPage />} />
+          <Route path="admin/update/:id" element={<AdminUpdate />} />
           <Route path="Profile" element={<ProfilePage />} />
           <Route path="MyWishList" element={<ShortlistedVehicles />} />
           <Route path="AddCar" element={<AddCarForm />} />
@@ -38,6 +50,14 @@ function App() {
           <Route path="myorder" element={<UserAppointments />} />
           <Route path="manage" element={<ManageAppointments />} />
           <Route path="updatecar/:carId" element={<UpdateCarDetails />} />
+          <Route path="teams" element={<Teams />} />
+          <Route path="services" element={<Services />} />
+          <Route path="contact" element={<Contact />} />
+          <Route path="support" element={<Support />} />
+          <Route path="company" element={<Company />} />
+          <Route path="location" element={<Location />} />
+          <Route path="about" element={<About />} />
+          <Route path="our-services" element={<OurServices />} />
         </Route>
       </Routes>
       <ToastContainer />
