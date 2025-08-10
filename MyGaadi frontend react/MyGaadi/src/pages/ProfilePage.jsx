@@ -4,6 +4,7 @@ import "../Style/ProfilePage.css";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../contexts/auth.context";
 import { useContext } from "react";
+import { config } from "../config";
 
 const ProfilePage = () => {
   //get the navigate() function reference
@@ -38,7 +39,7 @@ const ProfilePage = () => {
       }
 
       try {
-        const response = await axios.get("http://localhost:8080/api/profile", {
+        const response = await axios.get(`${config.serverURL}/api/profile`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

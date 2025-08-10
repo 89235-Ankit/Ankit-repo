@@ -3,7 +3,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../../Style/ProfileUpdate.css";
 import { useNavigate } from "react-router-dom";
-
+import { config } from "../../config";
+import { toast } from "react-toastify";
 const ProfileUpdatePage = () => {
   const navigate = useNavigate();
 
@@ -17,7 +18,7 @@ const ProfileUpdatePage = () => {
     const fetchProfile = async () => {
       const token = sessionStorage.getItem("token");
       try {
-        const response = await axios.get("http://localhost:8080/api/profile", {
+        const response = await axios.get(`${config.serverURL}/api/profile`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -42,13 +43,14 @@ const ProfileUpdatePage = () => {
     const token = sessionStorage.getItem("token");
 
     try {
-      await axios.put("http://localhost:8080/api/profile", formData, {
+      await axios.put(`${config.serverURL}/api/profile`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
 
-      alert("Profile updated successfully");
+     
+      toast.success("Profile updated successfully");
       navigate("/home/profile");
     } catch (error) {
       console.error("Update error:", error);

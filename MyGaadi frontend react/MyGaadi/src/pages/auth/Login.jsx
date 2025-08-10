@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/auth.context.jsx";
 import axios from "axios";
 import "../../Style/Login.css";
+import { config } from "../../config.js";
 
 function Login() {
   // get the setUser from AuthContext
@@ -47,7 +48,7 @@ function Login() {
           console.log("result: ", result);
           
             axios
-              .get(`http://localhost:8080/appointment/manage`, {
+              .get(`${config.serverURL}/appointment/manage`, {
                 headers: {
                   Authorization: `Bearer ${token}`,
                 },

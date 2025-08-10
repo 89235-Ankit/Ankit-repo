@@ -58,6 +58,12 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<!--MAIL SERVICE-->
+		<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-mail</artifactId>
+</dependency>
+
 
 
 <!--JWT TOKEN generation-->		
@@ -129,6 +135,9 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		
+		<!--final name for jar file-->
+		<finalName>backend-app</finalName>
 	</build>
 
 </project>

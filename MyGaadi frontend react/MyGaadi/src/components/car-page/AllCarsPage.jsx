@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { useShortlist } from "../../contexts/ShortlistContext";
 import "../../Style/CarFilter.css";
-
+import { config } from "../../config";
 const AllCarsPage = () => {
   const [cars, setCars] = useState([]);
   const navigate = useNavigate();
@@ -12,7 +12,7 @@ const AllCarsPage = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/cars/all")
+      .get(`${config.serverURL}/cars/all`)
       .then((res) => setCars(res.data))
       .catch((err) => console.error("Error fetching cars:", err));
   }, []);

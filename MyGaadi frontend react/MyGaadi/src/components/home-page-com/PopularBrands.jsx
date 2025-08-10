@@ -11,6 +11,16 @@ import Volkswagen from "../../assets/CarBrandLogo/Volkswagen.png";
 import Skoda from "../../assets/CarBrandLogo/Skoda.jpg";
 import Ford from "../../assets/CarBrandLogo/Ford.png";
 import MgMotors from "../../assets/CarBrandLogo/Mg.png";
+import Audi from "../../assets/CarBrandLogo/audi-logo.png";
+import BMW from "../../assets/CarBrandLogo/bmw-logo.png";
+import Mercedes from "../../assets/CarBrandLogo/mercedes-benz-logo.png";
+import Nissan from "../../assets/CarBrandLogo/nissan-logo.png";
+import Porsche from "../../assets/CarBrandLogo/porsche-logo.png";
+import Jaguar from "../../assets/CarBrandLogo/jaguar-logo.png"
+import Tesla from "../../assets/CarBrandLogo/tesla-logo.png";
+import Lamborghini from "../../assets/CarBrandLogo/lamborghini-logo.png";
+import Ferrari from "../../assets/CarBrandLogo/ferrari-logo.png";
+import toyota from "../../assets/CarBrandLogo/toyota-logo.png";
 import { useNavigate } from "react-router-dom";
 const PopularBrands = () => {
   const navigate = useNavigate();
@@ -43,6 +53,57 @@ const PopularBrands = () => {
       count: "10+ cars",
       logo: Volkswagen,
     },
+     {
+      name: "Mercedes-Benz",
+      count: "10+ cars",
+      logo: Mercedes,
+    },
+     {
+      name: "BMW",
+      count: "5+ cars",
+      logo: BMW,
+    },
+     {
+      name: "Audi",
+      count: "10+ cars",
+      logo: Audi,
+    },
+    {
+      name: "Toyota",
+      count: "10+ cars",
+      logo: toyota,
+    },
+      {
+      name: "Nissan",
+      count: "10+ cars",
+      logo: Nissan,
+    },
+
+      {
+      name: "Porsche",
+      count: "10+ cars",
+      logo: Porsche,
+    },
+      {
+      name: "Jaguar",
+      count: "10+ cars",
+      logo: Jaguar,
+    },
+      {
+      name: "Tesla",
+      count: "10+ cars",
+      logo: Tesla,
+    },
+      {
+      name: "lamborghini",
+      count: "10+ cars",
+      logo: Lamborghini,
+    },
+      {
+      name: "Ferrari",
+      count: "10+ cars",
+      logo: Ferrari,
+    },
     { name: "Skoda", count: "9 cars", logo: Skoda },
     { name: "Ford", count: "8 cars", logo: Ford },
     { name: "Mg Motors", count: "3 cars", logo: MgMotors },
@@ -69,7 +130,7 @@ const PopularBrands = () => {
           </div>
         ))}
       </div>
-      <button className="view-all-brands">View all cars</button>
+      <button onClick={()=>navigate("/home/AllCar")} className="view-all-brands">View all cars</button>
     </div>
   );
 };

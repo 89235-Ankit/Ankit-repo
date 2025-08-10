@@ -1,4 +1,4 @@
-
+import { config } from "../../config";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../../Style/ProfileUpdate.css";
@@ -19,7 +19,7 @@ const AdminUpdate = () => {
         const fetchProfile = async () => {
             const token = sessionStorage.getItem("token");
             try {
-                const response = await axios.get(`http://localhost:8080/users/admin/${id}`,  {
+                const response = await axios.get(`${config.serverURL}/users/admin/${id}`,  {
           headers: {
             Authorization: `Bearer ${token}`
           },
@@ -44,7 +44,7 @@ const AdminUpdate = () => {
         const token = sessionStorage.getItem("token");
 
         try {
-            await axios.put(`http://localhost:8080/users/${id}`, formData,   {
+            await axios.put(`${config.serverURL}/users/${id}`, formData,   {
           headers: {
             Authorization: `Bearer ${token}`
           },

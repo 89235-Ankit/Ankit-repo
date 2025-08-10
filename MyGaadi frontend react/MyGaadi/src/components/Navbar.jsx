@@ -45,7 +45,8 @@ function Navbar() {
 
         <FaUserCircle
           className="navbar__profile-icon"
-          onClick={() => navigate("/home/Profile")}
+          onClick={() =>
+             navigate("/home/Profile")}
         />
       </div>
     </nav>

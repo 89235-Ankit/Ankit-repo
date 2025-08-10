@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../../Style/AdminPage.css";
 import { useNavigate } from "react-router-dom";
+import { config } from "../../config";
 
 const AdminPage = () => {
   const [admins, setAdmins] = useState([]);
@@ -15,7 +16,7 @@ const AdminPage = () => {
 
   const fetchAdmins = () => {
     axios
-      .get("http://localhost:8080/admin/",   {
+      .get(`${config.serverURL}/admin/`,   {
           headers: {
             Authorization: `Bearer ${token}`
           },
@@ -27,7 +28,7 @@ const AdminPage = () => {
 
   const handleDelete = (id) => {
     axios
-      .delete(`http://localhost:8080/admin/${id}`,   {
+      .delete(`${config.serverURL}/admin/${id}`,   {
           headers: {
             Authorization: `Bearer ${token}`
           },

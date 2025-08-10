@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../../Style/AddCarForm.css";
-
+import { config } from "../../config";
 const UpdateCarForm = () => {
   const { carId } = useParams();
   console.log("UpdateCarForm ID:", carId);
 
   const navigate = useNavigate();
 
-  const brands = [
+ const brands = [
     "Maruti Suzuki",
     "Hyundai",
     "Renault",
@@ -22,6 +22,24 @@ const UpdateCarForm = () => {
     "Skoda",
     "Ford",
     "Mg Motors",
+    "Audi",
+    "BMW",
+    "Mercedes-Benz",
+    "Toyota",
+    "Nissan",
+    "Chevrolet",
+    "Datsun",
+    "Jeep",
+    "Volvo",
+    "Porsche",
+    "Land Rover",
+    "Jaguar",
+    "Fiat",
+    "Mitsubishi",
+    "Isuzu",
+    "lamborghini",
+    "Ferrari",
+    "others",
   ];
 
   const locations = [
@@ -61,13 +79,13 @@ const UpdateCarForm = () => {
   useEffect(() => {
     const fetchCar = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/cars/${carId}`);
+        const response = await fetch(`${config.serverURL}/cars/${carId}`);
         if (response.ok) {
           const data = await response.json();
           setFormValues(data);
           setPreviewUrls(
             data.images?.map(
-              (img) => `http://localhost:8080/images/${img.fileName}`
+              (img) => `${config.serverURL}images/${img.fileName}`
             ) || []
           );
         } else {
@@ -106,7 +124,7 @@ const UpdateCarForm = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:8080/cars/update/${carId}`,
+        `${config.serverURL}/cars/update/${carId}`,
         {
           method: "PUT",
           headers: {
@@ -131,7 +149,6 @@ const UpdateCarForm = () => {
 
   return (
     <div className="add-car-form">
-      <ToastContainer />
       <h2>Update Car</h2>
       <form
         onSubmit={handleSubmit}
@@ -170,7 +187,7 @@ const UpdateCarForm = () => {
           </select>
 
           <input
-            type="text"
+           
             name="model"
             placeholder="Model"
             value={formValues.model}
@@ -219,7 +236,7 @@ const UpdateCarForm = () => {
           </select>
 
           <input
-            type="text"
+           
             name="registrationNumber"
             placeholder="Registration No."
             value={formValues.registrationNumber}

@@ -6,7 +6,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../../Style/Filter.css";
 import { useShortlist } from "../../contexts/ShortlistContext";
-
+import { config } from "../../config";
 const FilterCar = () => {
   const location = useLocation();
   
@@ -26,7 +26,7 @@ const FilterCar = () => {
   console.log(body)
   useEffect(() => {
     axios
-      .post(`http://localhost:8080/cars/filter`, body)
+      .post(`${config.serverURL}/cars/filter`, body)
       .then((res) => {
         setCars(res.data);
       })

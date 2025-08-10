@@ -3,7 +3,7 @@ import axios from "axios";
 import "../../Style/UserAppointment.css";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-
+import { config } from "../../config";
 const ManageAppointments = () => {
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -15,7 +15,7 @@ const ManageAppointments = () => {
   const handleclick = (id, status) => {
     axios
       .put(
-        `http://localhost:8080/appointment/update/${id}`,
+        `${config.serverURL}/appointment/update/${id}`,
         { status },
         {
           headers: {
@@ -24,7 +24,9 @@ const ManageAppointments = () => {
           },
         }
       )
-      .then(() => toast.success("Appointment updated"))
+      .then(() => {toast.success("Appointment updated")
+        navigate("/home");
+      })
       .catch((err) => {
         toast.error("Failed to update");
         console.error(err);
@@ -33,7 +35,7 @@ const ManageAppointments = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8080/appointment/manage`, {
+      .get(`${config.serverURL}/appointment/manage`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

@@ -11,6 +11,7 @@ import F from "../../assets/city/CityF.png";
 import G from "../../assets/city/CityG.png";
 import H from "../../assets/city/CityH.png";
 import I from "../../assets/city/CityI.png";
+
 const City = () => {
   const [city, setCity] = useState("");
 
@@ -92,7 +93,7 @@ const City = () => {
         
 
             {/* Dropdown */}
-            <select classNames="form-select"
+            <select className="form-select"
               value=""
               onChange={(e) => handleCityChange(e.target.value)}
               style={{ padding: "6px 10px" }}

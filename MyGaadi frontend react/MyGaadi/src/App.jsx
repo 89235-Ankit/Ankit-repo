@@ -27,6 +27,7 @@ import Company from './components/static/Company';
 import Location from'./components/static/Location';
 import About from './components/static/About';
 import OurServices from './components/static/OurServices';
+import ProtectedRoute from "./pages/auth/ProtectecRoute";
 function App() {
   return (
     <>
@@ -35,21 +36,54 @@ function App() {
         <Route path="register" element={<Register />} />
         <Route path="home" element={<Home />}>
           <Route index element={<HomeLanding />} />
-          <Route path="admin" element={<AdminPage />} />
-          <Route path="admin/update/:id" element={<AdminUpdate />} />
-          <Route path="Profile" element={<ProfilePage />} />
+          <Route path="admin" element={
+              <ProtectedRoute>
+                <AdminPage />
+                  </ProtectedRoute>} />
+          <Route path="admin/update/:id" element={
+              <ProtectedRoute>
+                <AdminUpdate />
+                  </ProtectedRoute>} />
+          <Route path="Profile" element={
+            <ProtectedRoute>
+              <ProfilePage />
+            </ProtectedRoute>} />
           <Route path="MyWishList" element={<ShortlistedVehicles />} />
-          <Route path="AddCar" element={<AddCarForm />} />
+          <Route path="AddCar" element={
+            <ProtectedRoute>
+              <AddCarForm />
+              </ProtectedRoute>} />
           <Route path="AllCar" element={<AllCarsPage />} />
-          <Route path="cars/:carId" element={<CarDetailsPage />} />
-          <Route path="Filtercar" element={<FilterCar />} />
+          <Route path="cars/:carId" element={
+            <CarDetailsPage />} />
+          <Route path="Filtercar" element={
+            <FilterCar />
+            } />
           <Route path="MyVehicles" element={<Myvehicles />} />
-          <Route path="ProfileUpdate" element={<ProfileUpdate />} />
-          <Route path="myorders" element={<MyOrders />} />
-          <Route path="book/:carId" element={<BookAppointment />} />
-          <Route path="myorder" element={<UserAppointments />} />
-          <Route path="manage" element={<ManageAppointments />} />
-          <Route path="updatecar/:carId" element={<UpdateCarDetails />} />
+          <Route path="ProfileUpdate" element={
+            <ProtectedRoute>
+            <ProfileUpdate />
+            </ProtectedRoute>} />
+          <Route path="booking" element={
+            <ProtectedRoute>
+            <MyOrders />
+            </ProtectedRoute>} />
+          <Route path="book/:carId" element={
+            <ProtectedRoute>
+              <BookAppointment />
+              </ProtectedRoute>} />
+          <Route path="myorder" element={
+            <ProtectedRoute>
+            <UserAppointments />
+            </ProtectedRoute>} />
+          <Route path="manage" element={
+             <ProtectedRoute>
+              <ManageAppointments />
+             </ProtectedRoute>} />
+          <Route path="updatecar/:carId" element={  
+            <ProtectedRoute>
+              <UpdateCarDetails />
+                </ProtectedRoute>} />
           <Route path="teams" element={<Teams />} />
           <Route path="services" element={<Services />} />
           <Route path="contact" element={<Contact />} />

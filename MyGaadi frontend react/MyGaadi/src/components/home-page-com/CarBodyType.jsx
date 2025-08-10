@@ -9,6 +9,7 @@ import {
 } from "react-icons/fa";
 import { useShortlist } from "../../contexts/ShortlistContext";
 import "../../Style/homepage/CarBodyType.css";
+import { config } from "../../config";
 
 const CarBodyType = () => {
   const [recentCars, setRecentCars] = useState([]);
@@ -18,7 +19,7 @@ const CarBodyType = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/cars/all")
+      .get(`${config.serverURL}/cars/all`)
       .then((res) => {
         const sorted = res.data.sort((a, b) => b.carId - a.carId);
         const latest = sorted.slice(0, 10);

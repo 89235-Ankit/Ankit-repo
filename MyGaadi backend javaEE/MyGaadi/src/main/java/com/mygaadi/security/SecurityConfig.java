@@ -27,7 +27,7 @@ public class SecurityConfig {
             .cors(Customizer.withDefaults()) // 👈 enable CORS
             .authorizeHttpRequests(auth -> auth
             	    // ✅ Publicly accessible routes (login, registration, static assets etc.)
-            	    .requestMatchers("/users/signin", "users/signup", "/public/**").permitAll()
+            	    .requestMatchers("/users/signin", "/users/signup", "/public/**").permitAll()
 
             	    .requestMatchers("/cars/all", "/cars/filter", "/cars/{id}", "/api/profile").permitAll()
             	    

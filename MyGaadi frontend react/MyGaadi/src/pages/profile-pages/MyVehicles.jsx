@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { config } from "../../config";
 const MyVehicles = () => {
   const [cars, setCars] = useState([]);
   const navigate = useNavigate();
@@ -10,7 +11,7 @@ const MyVehicles = () => {
     console.log("Token:", token); // ✅ Check if token exists
 
     axios
-      .get("http://localhost:8080/cars/my", {
+      .get(`${config.serverURL}/cars/my`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -24,7 +25,7 @@ const MyVehicles = () => {
 
   const deleteCar = (carId) => {
     axios
-      .delete(`http://localhost:8080/cars/${carId}`)
+      .delete(`${config.serverURL}/cars/${carId}`)
       .then(() => {
         toast.success("Car was removed successfully");
         setCars((prevCars) => prevCars.filter((car) => car.carId !== carId));

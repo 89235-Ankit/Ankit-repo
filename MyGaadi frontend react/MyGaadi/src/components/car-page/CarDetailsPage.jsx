@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../../Style/CarDetails.css";
 import { toast } from "react-toastify";
-
+import { config } from "../../config";
 const CarDetailPage = () => {
   const { carId } = useParams();
   const navigate = useNavigate();
@@ -15,7 +15,7 @@ const CarDetailPage = () => {
   
   useEffect(() => {
     axios
-      .get(`http://localhost:8080/cars/${carId}`,{
+      .get(`${config.serverURL}/cars/${carId}`,{
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -29,7 +29,7 @@ const CarDetailPage = () => {
   const toggleWishlist = () => {
     setWishlist((prev) => !prev);
     axios
-      .post(`http://localhost:8080/api/favorites/3/${carId}`)
+      .post(`${config.serverURL}/api/favorites/3/${carId}`)
       .then((res) => {
         if (res.status === 200) {
           alert("Car was added to wishlist");
@@ -51,7 +51,7 @@ const CarDetailPage = () => {
   };
 
   const handleClick =()=>{
-    axios.post(`http://localhost:8080/inquiries/send`,{
+    axios.post(`${config.serverURL}/inquiries/send`,{
       fromUserId: 1,
     carId: carId,
     message: "wanana contact"}, {
@@ -105,13 +105,13 @@ const CarDetailPage = () => {
 
           <div className="d-flex justify-content-between align-items-start mt-4">
             <h5>Description</h5>
-            <button className="btn btn-link p-0" onClick={toggleWishlist}>
+            {/* <button className="btn btn-link p-0" onClick={toggleWishlist}>
               <i
                 className={`bi ${
                   wishlist ? "bi-heart-fill text-danger" : "bi-heart text-muted"
                 } fs-3`}
               />
-            </button>
+            </button> */}
           </div>
 
           <div className="car-description-box mb-3">{car.description}</div>

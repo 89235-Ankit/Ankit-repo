@@ -5,6 +5,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../contexts/auth.context";
 import { useContext } from "react";
+import { config } from "../config";
 const ShortlistedVehicles = () => {
   const { shortlisted, removeFromShortlist } = useShortlist();
   const [userData, setUserData] = useState({
@@ -36,7 +37,7 @@ const ShortlistedVehicles = () => {
       }
 
       try {
-        const response = await axios.get("http://localhost:8080/api/profile", {
+        const response = await axios.get(`${config.serverURL}/api/profile`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

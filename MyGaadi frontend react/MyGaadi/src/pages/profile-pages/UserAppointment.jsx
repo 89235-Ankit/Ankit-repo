@@ -3,6 +3,8 @@ import axios from "axios";
 import "../../Style/UserAppointment.css"; // optional CSS styling
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { config } from "../../config";
+
 const UserAppointments = () => {
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -10,7 +12,7 @@ const UserAppointments = () => {
   const navigate = useNavigate();
   useEffect(() => {
     axios
-      .get(`http://localhost:8080/appointment`, {
+      .get(`${config.serverURL}/appointment`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

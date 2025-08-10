@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 import "../../Style/BookAppointment.css";
 import { useNavigate } from "react-router-dom";
+import { config } from "../../config";
 const AppointmentForm = () => {
   const [formData, setFormData] = useState({
     location: "",
@@ -34,7 +35,7 @@ const AppointmentForm = () => {
       };
 
       await axios.post(
-        `http://localhost:8080/appointment/${carId}`,
+        `${config.serverURL}/appointment/${carId}`,
         appointmentData,
         {
           headers: {
